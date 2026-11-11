@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The reader. Colours come from the selected reading theme at runtime (ReaderActivity.applyTheme):
+     views tagged "secondary" get the theme's secondary text colour, "accent" its link colour,
+     "chrome" the menu background. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/page_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp">
+
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="48dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:tag="secondary"
+                android:textSize="12sp"
+                tools:text="Chapter 3: The Ball" />
+
+            <ImageView
+                android:id="@+id/ribbon"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top|end"
+                android:layout_marginEnd="18dp"
+                android:importantForAccessibility="no"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_bookmark"
+                android:tag="accent"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/engine_host"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp">
+
+            <TextView
+                android:id="@+id/footer_left"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:tag="secondary"
+                android:textSize="12sp"
+                tools:text="8 min left in chapter" />
+
+            <TextView
+                android:id="@+id/footer_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:tag="secondary"
+                android:textSize="12sp"
+                tools:text="42%" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/back_pill"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="56dp"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:tag="pill"
+        android:textSize="14sp"
+        android:visibility="gone"
+        tools:text="‹  Back to 12%"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/brightness_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="10dp"
+        android:elevation="6dp"
+        android:gravity="center"
+        android:minWidth="120dp"
+        android:padding="16dp"
+        android:tag="pill"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:text="45%"
+        tools:visibility="visible" />
+
+    <!-- Top menu -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:elevation="4dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:minHeight="56dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:tag="chrome"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/menu_back"
+            style="@style/IconButton"
+            android:contentDescription="@string/back_to_library"
+            android:src="@drawable/ic_back" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menu_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Pride and Prejudice" />
+
+            <TextView
+                android:id="@+id/menu_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:tag="secondary"
+                android:textSize="13sp"
+                tools:text="Jane Austen" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/menu_search"
+            style="@style/IconButton"
+            android:contentDescription="@string/search_book"
+            android:src="@drawable/ic_search" />
+
+        <ImageButton
+            android:id="@+id/menu_bookmark"
+            style="@style/IconButton"
+            android:contentDescription="@string/add_bookmark"
+            android:src="@drawable/ic_bookmark_border" />
+    </LinearLayout>
+
+    <!-- Bottom menu: progress scrubber and the panels -->
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:tag="chrome"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:id="@+id/menu_chapter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="14sp"
+                tools:text="Chapter 3" />
+
+            <TextView
+                android:id="@+id/menu_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:tag="secondary"
+                android:textSize="13sp"
+                tools:text="Page 4 of 12 · 42%" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seek"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/book_progress"
+            android:max="1000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/menu_contents"
+                style="@style/ReaderMenuButton"
+                android:drawableTop="@drawable/ic_toc"
+                android:text="@string/contents" />
+
+            <TextView
+                android:id="@+id/menu_text"
+                style="@style/ReaderMenuButton"
+                android:drawableTop="@drawable/ic_text_size"
+                android:text="@string/display" />
+
+            <TextView
+                android:id="@+id/menu_light"
+                style="@style/ReaderMenuButton"
+                android:drawableTop="@drawable/ic_light"
+                android:text="@string/light" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:visibility="gone" />
+
+    <!-- Display settings: theme, font, size, spacing, margins, alignment, behaviour -->
+    <ScrollView
+        android:id="@+id/text_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="8dp"
+        android:tag="chrome"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/text_sheet_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="12dp">
+
+            <TextView style="@style/SheetLabel" android:text="@string/theme" />
+
+            <LinearLayout
+                android:id="@+id/theme_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/text_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView style="@style/SheetLabel" android:text="@string/font" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/font_row"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
+
+                <TextView style="@style/SheetLabel" android:text="@string/text_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/size_down"
+                        android:layout_width="64dp"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/smaller_text"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:tag="segment"
+                        android:text="@string/letter_a"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/size_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="15sp"
+                        tools:text="110%" />
+
+                    <TextView
+                        android:id="@+id/size_up"
+                        android:layout_width="64dp"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/larger_text"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:tag="segment"
+                        android:text="@string/letter_a"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <TextView style="@style/SheetLabel" android:text="@string/line_spacing" />
+
+                <LinearLayout
+                    android:id="@+id/spacing_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal" />
+
+                <TextView style="@style/SheetLabel" android:text="@string/margins" />
+
+                <LinearLayout
+                    android:id="@+id/margin_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal" />
+
+                <TextView style="@style/SheetLabel" android:text="@string/alignment" />
+
+                <LinearLayout
+                    android:id="@+id/align_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal" />
+
+                <Switch
+                    android:id="@+id/switch_columns"
+                    style="@style/SheetSwitch"
+                    android:text="@string/two_columns" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/switch_animation"
+                style="@style/SheetSwitch"
+                android:text="@string/page_animation" />
+
+            <Switch
+                android:id="@+id/switch_volume"
+                style="@style/SheetSwitch"
+                android:text="@string/volume_keys" />
+
+            <Switch
+                android:id="@+id/switch_screen_on"
+                style="@style/SheetSwitch"
+                android:text="@string/keep_screen_on" />
+
+            <Switch
+                android:id="@+id/switch_status"
+                style="@style/SheetSwitch"
+                android:text="@string/show_status" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Light: brightness and warmth -->
+    <LinearLayout
+        android:id="@+id/light_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="16dp"
+        android:tag="chrome"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView style="@style/SheetLabel" android:text="@string/brightness" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_light_low" />
+
+            <SeekBar
+                android:id="@+id/brightness"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/brightness"
+                android:max="1000" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_light" />
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/switch_system_brightness"
+            style="@style/SheetSwitch"
+            android:text="@string/system_brightness" />
+
+        <TextView style="@style/SheetLabel" android:text="@string/warm_light" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_light_low" />
+
+            <SeekBar
+                android:id="@+id/warmth"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/warm_light"
+                android:max="100" />
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_warmth" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/light_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:tag="secondary"
+            android:text="@string/brightness_tip"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- Contents, bookmarks, notes & highlights -->
+    <LinearLayout
+        android:id="@+id/contents_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:tag="page"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="4dp"
+            android:paddingEnd="16dp">
+
+            <ImageButton
+                android:id="@+id/contents_close"
+                style="@style/IconButton"
+                android:contentDescription="@string/close"
+                android:src="@drawable/ic_close" />
+
+            <TextView
+                android:id="@+id/contents_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="serif"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Pride and Prejudice" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <TextView
+                android:id="@+id/tab_contents"
+                style="@style/ReaderTab"
+                android:text="@string/contents" />
+
+            <TextView
+                android:id="@+id/tab_bookmarks"
+                style="@style/ReaderTab"
+                android:text="@string/bookmarks" />
+
+            <TextView
+                android:id="@+id/tab_notes"
+                style="@style/ReaderTab"
+                android:text="@string/notes" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.15"
+            android:tag="divider" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ListView
+                android:id="@+id/contents_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:divider="@null"
+                android:paddingBottom="16dp" />
+
+            <TextView
+                android:id="@+id/contents_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.2"
+                android:padding="32dp"
+                android:tag="secondary"
+                android:textSize="15sp"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Search inside the book -->
+    <LinearLayout
+        android:id="@+id/search_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:tag="page"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="4dp"
+            android:paddingEnd="8dp">
+
+            <ImageButton
+                android:id="@+id/search_close"
+                style="@style/IconButton"
+                android:contentDescription="@string/close"
+                android:src="@drawable/ic_back" />
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/search_in_book"
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.15"
+            android:tag="divider" />
+
+        <TextView
+            android:id="@+id/search_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="6dp"
+            android:tag="secondary"
+            android:textSize="13sp"
+            tools:text="24 results" />
+
+        <ListView
+            android:id="@+id/search_results"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:paddingBottom="16dp" />
+    </LinearLayout>
+</FrameLayout>

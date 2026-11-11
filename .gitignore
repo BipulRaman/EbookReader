@@ -1,0 +1,19 @@
+# Patterns are anchored from this file's location (repo root) and apply recursively.
+# Gradle / Android Studio
+.gradle/
+.kotlin/
+build/
+local.properties
+.idea/
+*.iml
+captures/
+# Release APKs staged by CI
+dist/
+# OS / misc
+.DS_Store
+*.log
+.env*
+# Signing material (never commit; the CI build uses the
+# DEBUG_KEYSTORE_BASE64 repository secret instead)
+*.keystore
+*.jks

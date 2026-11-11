@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EbookReader</string>
+
+    <!-- Library -->
+    <string name="library">Library</string>
+    <string name="search_library">Search library</string>
+    <string name="search_title_or_author">Title or author</string>
+    <string name="close_search">Close search</string>
+    <string name="add_books">Add books</string>
+    <string name="more_options">More options</string>
+    <string name="empty_title">Your library is empty</string>
+    <string name="empty_text">Add EPUB, PDF or TXT books from your phone. They\'re copied into the app, so they stay available offline.</string>
+    <string name="continue_reading">Continue reading</string>
+    <string name="percent_read">%1$d%% read</string>
+    <string name="finished">Finished</string>
+    <string name="not_started">Not started</string>
+    <string name="badge_new">NEW</string>
+    <string name="badge_done">DONE</string>
+    <plurals name="all_books">
+        <item quantity="one">All books · %d</item>
+        <item quantity="other">All books · %d</item>
+    </plurals>
+    <plurals name="results">
+        <item quantity="one">%d match</item>
+        <item quantity="other">%d matches</item>
+    </plurals>
+    <plurals name="adding_books">
+        <item quantity="one">Adding book…</item>
+        <item quantity="other">Adding %d books…</item>
+    </plurals>
+    <string name="sort_by">Sort by</string>
+    <string name="sort_recent">Recently read</string>
+    <string name="sort_title">Title</string>
+    <string name="sort_author">Author</string>
+    <string name="sort_added">Recently added</string>
+    <string name="about">About</string>
+    <string name="about_text">Version %1$s\n\nA calm, offline reader for EPUB, PDF and TXT books.\n\nReading font: Literata, © The Literata Project Authors, SIL Open Font License 1.1.</string>
+    <string name="open">Open</string>
+    <string name="book_details">Book details</string>
+    <string name="mark_finished">Mark as finished</string>
+    <string name="mark_unread">Mark as unread</string>
+    <string name="remove_from_library">Remove from library</string>
+    <string name="remove_title">Remove book?</string>
+    <string name="remove_message">“%1$s” and its bookmarks, highlights and notes will be deleted from this phone.</string>
+    <string name="remove">Remove</string>
+    <string name="detail_author">Author: %1$s</string>
+    <string name="detail_format">Format: %1$s</string>
+    <string name="detail_size">Size: %1$s</string>
+    <string name="detail_added">Added: %1$s</string>
+    <string name="detail_progress">Progress: %1$d%%</string>
+    <string name="no_file_picker">No file picker is available on this device.</string>
+    <string name="already_in_library">“%1$s” is already in your library</string>
+    <string name="this_file">This file</string>
+    <string name="adding">Adding…</string>
+    <string name="import_failed_generic">couldn\'t be added</string>
+
+    <!-- Reader: status and menus -->
+    <string name="open_failed">This book could not be opened.</string>
+    <string name="back_to_library">Back to library</string>
+    <string name="search_book">Search this book</string>
+    <string name="add_bookmark">Add bookmark</string>
+    <string name="remove_bookmark">Remove bookmark</string>
+    <string name="book_progress">Position in book</string>
+    <string name="contents">Contents</string>
+    <string name="display">Display</string>
+    <string name="light">Light</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="notes">Notes</string>
+    <string name="close">Close</string>
+    <string name="percent">%1$d%%</string>
+    <string name="page_of">Page %1$d of %2$d</string>
+    <string name="page_of_percent">%1$d / %2$d · %3$d%%</string>
+    <string name="page_in_chapter">Page %1$d of %2$d in chapter</string>
+    <string name="page_n">Page %1$d</string>
+    <string name="section_n">Section %1$d</string>
+    <string name="left_in_chapter">%1$s left in chapter</string>
+    <string name="left_in_book">%1$s left in book</string>
+    <string name="less_than_a_minute">Less than a minute</string>
+    <plurals name="minutes">
+        <item quantity="one">%d min</item>
+        <item quantity="other">%d min</item>
+    </plurals>
+    <string name="hours_minutes">%1$d h %2$d min</string>
+    <string name="back_to">‹  Back to %1$d%%</string>
+    <string name="end_of_book_title">The end</string>
+    <string name="end_of_book_message">You\'ve finished “%1$s”.</string>
+    <string name="keep_reading">Stay here</string>
+    <string name="image">Image</string>
+
+    <!-- Reader: contents panel -->
+    <string name="no_contents">This book has no table of contents.</string>
+    <string name="no_bookmarks">No bookmarks yet.\n\nTap the bookmark icon in the menu, or the top-right corner of a page, to add one.</string>
+    <string name="no_notes">No highlights or notes yet.\n\nPress and hold a word, drag to select, then choose Highlight or Note.</string>
+    <string name="delete_bookmark_question">Delete this bookmark?</string>
+    <string name="delete">Delete</string>
+
+    <!-- Reader: search -->
+    <string name="search_in_book">Search in book</string>
+    <string name="searching">Searching…</string>
+    <string name="no_results">No results for “%1$s”</string>
+    <plurals name="search_results">
+        <item quantity="one">%d result</item>
+        <item quantity="other">%d results</item>
+    </plurals>
+
+    <!-- Reader: selection, highlights, notes -->
+    <string name="highlight">Highlight</string>
+    <string name="note">Note</string>
+    <string name="look_up">Look up</string>
+    <string name="add_note">Add note</string>
+    <string name="edit_note">Edit note</string>
+    <string name="note_hint">Your note</string>
+    <string name="save">Save</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied</string>
+    <string name="share">Share</string>
+    <string name="delete_highlight">Delete highlight</string>
+    <string name="quoted">“%1$s”</string>
+    <string name="share_quote">“%1$s”\n\n— %2$s</string>
+    <string name="title_by_author">%1$s by %2$s</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_orange">Orange</string>
+    <string name="go_to_note">Go to note</string>
+    <string name="open_link_title">Open link in browser?</string>
+    <string name="no_app_for_link">No app can open this link.</string>
+
+    <!-- Reader: display settings -->
+    <string name="theme">Theme</string>
+    <string name="theme_white">White</string>
+    <string name="theme_sepia">Sepia</string>
+    <string name="theme_green">Green</string>
+    <string name="theme_black">Black</string>
+    <string name="letter_aa">Aa</string>
+    <string name="letter_a">A</string>
+    <string name="font">Font</string>
+    <string name="font_publisher">Original</string>
+    <string name="font_literata">Literata</string>
+    <string name="font_serif">Serif</string>
+    <string name="font_sans">Sans</string>
+    <string name="text_size">Text size</string>
+    <string name="smaller_text">Smaller text</string>
+    <string name="larger_text">Larger text</string>
+    <string name="line_spacing">Line spacing</string>
+    <string name="spacing_compact">Compact</string>
+    <string name="spacing_normal">Normal</string>
+    <string name="spacing_relaxed">Relaxed</string>
+    <string name="margins">Margins</string>
+    <string name="margins_narrow">Narrow</string>
+    <string name="margins_normal">Normal</string>
+    <string name="margins_wide">Wide</string>
+    <string name="alignment">Alignment</string>
+    <string name="align_justified">Justified</string>
+    <string name="align_left">Left</string>
+    <string name="two_columns">Two columns in landscape</string>
+    <string name="page_animation">Page turn animation</string>
+    <string name="volume_keys">Turn pages with volume keys</string>
+    <string name="keep_screen_on">Keep screen on while reading</string>
+    <string name="show_status">Show chapter and progress</string>
+
+    <!-- Reader: light -->
+    <string name="brightness">Brightness</string>
+    <string name="system_brightness">Use system brightness</string>
+    <string name="warm_light">Warm light</string>
+    <string name="brightness_tip">Tip: slide up or down along the left edge of a page to change brightness while reading.</string>
+</resources>

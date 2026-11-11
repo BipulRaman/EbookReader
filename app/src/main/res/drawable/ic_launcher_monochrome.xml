@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Single-colour layer for Android 13+ themed icons: the open book with its ribbon cut out. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M28,38C36,34.5 45,34.5 52.5,39L52.5,75C45,70.5 36,70.5 28,73.5Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M55.5,39C63,34.5 72,34.5 80,38L80,73.5C72,70.5 63,70.5 55.5,75ZM68.5,36.2L75,36.2L75,52L71.75,48.8L68.5,52Z" />
+</vector>

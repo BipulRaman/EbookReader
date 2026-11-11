@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An open book with a bookmark ribbon; everything stays inside the 66dp adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Left page -->
+    <path
+        android:fillColor="#FFFDF8EE"
+        android:pathData="M28,38C36,34.5 45,34.5 52.5,39L52.5,75C45,70.5 36,70.5 28,73.5Z" />
+    <!-- Right page -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M55.5,39C63,34.5 72,34.5 80,38L80,73.5C72,70.5 63,70.5 55.5,75Z" />
+    <!-- Text lines -->
+    <path
+        android:fillColor="#FFB9C4D3"
+        android:pathData="M33,44.2C38,42.6 43,42.6 48,44.2L48,45.8C43,44.2 38,44.2 33,45.8ZM33,50.2C38,48.6 43,48.6 48,50.2L48,51.8C43,50.2 38,50.2 33,51.8ZM33,56.2C38,54.6 43,54.6 48,56.2L48,57.8C43,56.2 38,56.2 33,57.8ZM33,62.2C38,60.6 43,60.6 46,61.6L46,63.2C43,62.2 38,62.2 33,63.8ZM60,44.2C63,43.2 64.5,43 66,43L66,44.6C64.5,44.6 63,44.8 60,45.8ZM60,50.2C65,48.6 70,48.6 75,50.2L75,51.8C70,50.2 65,50.2 60,51.8ZM60,56.2C65,54.6 70,54.6 75,56.2L75,57.8C70,56.2 65,56.2 60,57.8ZM60,62.2C65,60.6 70,60.6 75,62.2L75,63.8C70,62.2 65,62.2 60,63.8Z" />
+    <!-- Bookmark ribbon -->
+    <path
+        android:fillColor="#FFFFB547"
+        android:pathData="M68.5,36L75,36L75,52L71.75,48.8L68.5,52Z" />
+</vector>

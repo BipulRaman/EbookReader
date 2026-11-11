@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "Continue reading": the most recently opened unfinished book, spanning the whole grid. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/bg_card"
+    android:elevation="2dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <in.bipul.ebookreader.ui.CoverFrame
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:elevation="3dp">
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+    </in.bipul.ebookreader.ui.CoverFrame>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.12"
+            android:text="@string/continue_reading"
+            android:textAllCaps="true"
+            android:textColor="@color/accent"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:fontFamily="serif"
+            android:maxLines="2"
+            android:textColor="@color/text_primary"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="Pride and Prejudice" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            tools:text="Jane Austen" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="14dp"
+            android:max="1000"
+            android:progressDrawable="@drawable/progress_thin"
+            tools:progress="420" />
+
+        <TextView
+            android:id="@+id/percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            tools:text="42% read" />
+    </LinearLayout>
+</LinearLayout>

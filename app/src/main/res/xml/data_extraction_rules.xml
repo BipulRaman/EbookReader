@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Books (often hundreds of MB) stay out of cloud backups, which cap at 25 MB per app.
+     Device-to-device transfers are not restricted, so the library moves to a new phone. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </cloud-backup>
+</data-extraction-rules>

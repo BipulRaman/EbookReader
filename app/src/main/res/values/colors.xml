@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Library screen (follows the system light/dark theme; values-night has the dark set). -->
+    <color name="bg">#FFF6F3EE</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="text_primary">#FF1D1B18</color>
+    <color name="text_secondary">#FF6E685F</color>
+    <color name="accent">#FFB0630A</color>
+    <color name="on_accent">#FFFFFFFF</color>
+    <color name="divider">#1F000000</color>
+    <color name="track">#22000000</color>
+    <!-- Reader accents (sliders, switches); the page colours live in ReaderTheme. -->
+    <color name="reader_accent">#FFC27A1E</color>
+</resources>
+

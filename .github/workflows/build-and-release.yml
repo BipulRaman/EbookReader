@@ -1,0 +1,131 @@
+name: Build & Release APK
+
+# Runs only when a GitHub Release is published (Releases → Draft a new release → pick a tag such
+# as v1.2.0 → Publish). It tests the app, builds the signed release APK and attaches it to that
+# release as EbookReader-v1.2.0.apk. Nothing is built on ordinary pushes.
+#
+# Requires repo secret: DEBUG_KEYSTORE_BASE64 (see .github/workflows/setup-keystore.yml).
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write   # needed to upload the APK to the release
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v7
+
+      - name: Version from release tag
+        id: version
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          # The tag must be a semantic version such as 1.2.3 (a leading v is fine). Android only
+          # installs an APK as an update when its versionCode is higher than the installed one, so
+          # derive a growing code from the version: 1.2.3 -> 10203.
+          version="${TAG#v}"
+          if ! [[ "$version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Release tag '$TAG' must look like 1.2.3 (or v1.2.3)"
+            exit 1
+          fi
+          if (( 10#${BASH_REMATCH[2]} > 99 || 10#${BASH_REMATCH[3]} > 99 )); then
+            echo "::error::Minor and patch numbers must stay below 100 so versionCode keeps growing"
+            exit 1
+          fi
+          code=$(( 10#${BASH_REMATCH[1]} * 10000 + 10#${BASH_REMATCH[2]} * 100 + 10#${BASH_REMATCH[3]} ))
+          echo "tag=${TAG}"      >> "$GITHUB_OUTPUT"
+          echo "name=${version}" >> "$GITHUB_OUTPUT"
+          echo "code=${code}"    >> "$GITHUB_OUTPUT"
+          echo "Release ${TAG} → versionName=${version}, versionCode=${code}"
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Install stable signing keystore (for in-place APK upgrades)
+        env:
+          DEBUG_KEYSTORE_BASE64: ${{ secrets.DEBUG_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "${DEBUG_KEYSTORE_BASE64}" ]; then
+            echo "::error::Repository secret DEBUG_KEYSTORE_BASE64 is not set."
+            echo "Run the 'Setup signing keystore (run once)' workflow, then copy the printed"
+            echo "base64 value into Settings → Secrets and variables → Actions →"
+            echo "New repository secret named 'DEBUG_KEYSTORE_BASE64'."
+            echo "Without it, APKs can't be installed over each other."
+            exit 1
+          fi
+          KEYSTORE="${RUNNER_TEMP}/ebookreader.keystore"
+          echo "${DEBUG_KEYSTORE_BASE64}" | base64 -d > "${KEYSTORE}"
+          if [ ! -s "${KEYSTORE}" ]; then
+            echo "::error::Decoded keystore is empty — DEBUG_KEYSTORE_BASE64 secret is malformed."
+            exit 1
+          fi
+          # app/build.gradle.kts signs release builds with this keystore when the variable is set.
+          echo "EBOOKREADER_KEYSTORE=${KEYSTORE}" >> "$GITHUB_ENV"
+          echo "Installed stable keystore (sha256: $(sha256sum "${KEYSTORE}" | cut -d' ' -f1))"
+
+      - name: Test, lint and build release APK
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          VERSION_CODE: ${{ steps.version.outputs.code }}
+        # chmod: commits made on Windows don't carry the wrapper's executable bit.
+        run: >
+          chmod +x gradlew &&
+          ./gradlew --no-daemon
+          :testDebugUnitTest :lintRelease :assembleRelease
+          -PversionCode="${VERSION_CODE}" -PversionName="${VERSION_NAME}"
+
+      - name: Verify signature and stage APK
+        id: stage
+        shell: bash
+        env:
+          VERSION_TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          SRC=$(ls build/outputs/apk/release/*.apk 2>/dev/null | head -n 1)
+          if [ -z "$SRC" ]; then
+            echo "::error::No release APK found under app/build/outputs/apk/release"
+            find build/outputs -type f -name "*.apk" || true
+            exit 1
+          fi
+          # Guard against shipping an APK signed with some other key: it would refuse to
+          # install over the version people already have.
+          APKSIGNER="$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -n 1)apksigner"
+          SIGNERS=$("$APKSIGNER" verify --print-certs "$SRC")
+          # apksigner's line format varies by version ("Signer #1 certificate SHA-256 digest: …",
+          # "V2 Signer: certificate SHA-256 digest: …"); the digest is always the last field.
+          APK_CERTS=$(printf '%s\n' "$SIGNERS" | grep 'certificate SHA-256 digest:' | awk '{print $NF}' | sort -u || true)
+          KEYSTORE_CERT=$(keytool -exportcert -keystore "$EBOOKREADER_KEYSTORE" -storepass android -alias androiddebugkey | sha256sum | cut -d' ' -f1)
+          if [ "$APK_CERTS" != "$KEYSTORE_CERT" ]; then
+            printf '%s\n' "$SIGNERS"
+            echo "::error::APK signer(s) [${APK_CERTS}] do not match the stable keystore (${KEYSTORE_CERT})."
+            exit 1
+          fi
+          NAME="EbookReader-${VERSION_TAG}.apk"
+          mkdir -p dist
+          cp "$SRC" "dist/${NAME}"
+          echo "path=dist/${NAME}" >> "$GITHUB_OUTPUT"
+          echo "Built dist/${NAME} ($(du -h "dist/${NAME}" | cut -f1), signer sha256=${APK_CERTS})"
+
+      - name: Attach APK to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION_TAG: ${{ steps.version.outputs.tag }}
+          APK_PATH: ${{ steps.stage.outputs.path }}
+        run: gh release upload "${VERSION_TAG}" "${APK_PATH}" --clobber --repo "${GITHUB_REPOSITORY}"

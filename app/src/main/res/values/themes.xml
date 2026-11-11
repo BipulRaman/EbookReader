@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- The library follows the system light/dark setting (values-night swaps the parent). -->
+    <style name="Theme.EbookReader.Base" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Ignored on Android 8.0; edge-to-edge draws behind a transparent bar anyway. -->
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+
+    <style name="Theme.EbookReader.Common" parent="Theme.EbookReader.Base">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:colorPrimary">@color/accent</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorControlActivated">@color/accent</item>
+        <item name="android:colorEdgeEffect">@color/accent</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.EbookReader" parent="Theme.EbookReader.Common" />
+
+    <!-- The reader paints its own page colours (white, sepia, green, black) at runtime. Its base
+         stays light whatever the system setting, so books' own dark-mode CSS never kicks in. -->
+    <style name="Theme.EbookReader.Reader" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:colorPrimary">@color/reader_accent</item>
+        <item name="android:colorAccent">@color/reader_accent</item>
+        <item name="android:colorControlActivated">@color/reader_accent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="ReaderMenuButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ReaderTab">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="SheetLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:tag">secondary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SheetSwitch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="IconButton">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+</resources>
+

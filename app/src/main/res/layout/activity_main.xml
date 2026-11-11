@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="4dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:text="@string/library"
+                android:textColor="@color/text_primary"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/search"
+                style="@style/IconButton"
+                android:contentDescription="@string/search_library"
+                android:src="@drawable/ic_search"
+                android:tint="@color/text_primary" />
+
+            <ImageButton
+                android:id="@+id/add"
+                style="@style/IconButton"
+                android:contentDescription="@string/add_books"
+                android:src="@drawable/ic_add"
+                android:tint="@color/text_primary" />
+
+            <ImageButton
+                android:id="@+id/more"
+                style="@style/IconButton"
+                android:contentDescription="@string/more_options"
+                android:src="@drawable/ic_more"
+                android:tint="@color/text_primary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_search"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingEnd="4dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_search"
+                android:tint="@color/text_secondary" />
+
+            <EditText
+                android:id="@+id/search_field"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/search_title_or_author"
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/search_close"
+                style="@style/IconButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:contentDescription="@string/close_search"
+                android:src="@drawable/ic_close"
+                android:tint="@color/text_secondary" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/books"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="24dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical" />
+
+            <LinearLayout
+                android:id="@+id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:alpha="0.85"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_book"
+                    android:tint="@color/accent" />
+
+                <TextView
+                    android:id="@+id/empty_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="serif"
+                    android:text="@string/empty_title"
+                    android:textColor="@color/text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/empty_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@string/empty_text"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/empty_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:backgroundTint="@color/accent"
+                    android:paddingStart="28dp"
+                    android:paddingEnd="28dp"
+                    android:text="@string/add_books"
+                    android:textColor="@color/on_accent" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Shown while books are being copied in. -->
+    <LinearLayout
+        android:id="@+id/importing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bg_card"
+        android:elevation="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="18dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="12dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:indeterminateTint="@color/accent" />
+
+        <TextView
+            android:id="@+id/importing_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/adding"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp" />
+    </LinearLayout>
+</FrameLayout>
