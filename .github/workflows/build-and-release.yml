@@ -1,8 +1,8 @@
 name: Build & Release APK
 
 # Runs only when a GitHub Release is published (Releases → Draft a new release → pick a tag such
-# as v1.2.0 → Publish). It tests the app, builds the signed release APK and attaches it to that
-# release as EbookReader-v1.2.0.apk. Nothing is built on ordinary pushes.
+# as 1.2.0 → Publish). It tests the app, builds the signed release APK and attaches it to that
+# release as EbookReader-1.2.0.apk. Nothing is built on ordinary pushes.
 #
 # Requires repo secret: DEBUG_KEYSTORE_BASE64 (see .github/workflows/setup-keystore.yml).
 
@@ -32,12 +32,12 @@ jobs:
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
-          # The tag must be a semantic version such as 1.2.3 (a leading v is fine). Android only
+          # The tag must be a plain semantic version such as 1.2.3 (no leading v). Android only
           # installs an APK as an update when its versionCode is higher than the installed one, so
           # derive a growing code from the version: 1.2.3 -> 10203.
-          version="${TAG#v}"
+          version="${TAG}"
           if ! [[ "$version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z.-]+)?$ ]]; then
-            echo "::error::Release tag '$TAG' must look like 1.2.3 (or v1.2.3)"
+            echo "::error::Release tag '$TAG' must look like 1.2.3 (no leading v)"
             exit 1
           fi
           if (( 10#${BASH_REMATCH[2]} > 99 || 10#${BASH_REMATCH[3]} > 99 )); then

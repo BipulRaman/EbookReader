@@ -138,8 +138,8 @@ The keystore is **never committed to the repo** — only in the secret.
 
 ### Publish a release
 
-1. **Releases → Draft a new release**, create a tag with a semantic version such as `v1.2.3` (or `1.2.3`) on the commit you want to ship, and **Publish**.
-2. [.github/workflows/build-and-release.yml](.github/workflows/build-and-release.yml) runs the tests and Android Lint, builds the minified release APK, signs it, and attaches it to that release as `EbookReader-v1.2.3.apk` (usually within a few minutes).
+1. **Releases → Draft a new release**, create a tag with a semantic version such as `1.2.3` (no `v` prefix) on the commit you want to ship, and **Publish**.
+2. [.github/workflows/build-and-release.yml](.github/workflows/build-and-release.yml) runs the tests and Android Lint, builds the minified release APK, signs it, and attaches it to that release as `EbookReader-1.2.3.apk` (usually within a few minutes).
 
 The tag version is stamped into the APK: `versionName` = `1.2.3`, `versionCode` = `10203` (major × 10000 + minor × 100 + patch), so every newer version installs as an update over older ones. If the tag isn't in that format, or minor/patch reach 100, the release build fails.
 
